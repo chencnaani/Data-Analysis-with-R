@@ -10,8 +10,7 @@ output: html_document
   
 
 **Contents**:  
-
-* Q0) [Submission Instructions](#submission-instructions)  
+ 
 * Q1) [Data Preparation and Manipulation](#data-preparation-and-manipulation)      
 * Q2) [Analysis of Daily New Corona Cases and Deaths](#analysis-of-daily-new-corona-cases-and-deaths)    
 * Q3) [Preparing and Analyzing the World Bank Data](#preparing-and-analyzing-the-world-bank-data)
@@ -21,23 +20,6 @@ output: html_document
 <br/><br/>
   
   
-### Submission Instructions  
-  
-This lab will be submitted in pairs using GitHub (if you don't have a pair, please contact us).  
-Please follow the steps in the  [GitHub-Classroom Lab 1](https://classroom.github.com/g/oSZNtHq4) to create your group's Lab 1 repository.  
-**Important: your team's name must be `FamilyName1_Name1_and_FamilyName2_Name2`**.  
-You can collaborate with your partner using the git environment; You can either make commits straight to master, or create individual branches (recommended). However, once done, be sure to merge your branches to master - you will be graded using the most recent master version - your last push and merge before the deadline.   
-**Please do not open/review other peoples' repositories - we will be notified by GitHub if you do.**
-
-Your final push should include this Rmd file (with your answers) together with the html file that is outputted automatically by knitr when you knit the Rmd. Anything else will be disregarded. In addition, please adhere to the following file format:    
-`Lab_2_FamilyName1_Name1_and_FamilyName2_Name2.Rmd/html`      
-  
-For plots and graphs, make sure you add proper titles, labels, and legends/colors (if you have more than 1 variable on the y-axes). Your plots should clearly convey the information you are trying to communicate.  
-Please write your code in a clear and concise way, with an emphasis on reproducibility. Use markdown to provide explanations before/after the code blocks. 
-
-<br/><br/>
-  
-
 
 ## A Deeper Dive Into John's Hopkins Corona Database         
     
