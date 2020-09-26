@@ -157,6 +157,8 @@ View(maximum[c(seq_high[1:5]), c(1,2)])
 for(i in seq(264)){
   eco$log_GDP_per_capita[i] <- (as.numeric(as.character(log(eco$GDP_per_capita[i]))))}
 filtered_eco <- eco %>% select(log_GDP_per_capita, pop65) %>% filter(log_GDP_per_capita >= 0.9)
+filtered_eco$pop65 <-as.numeric(filtered_eco$pop65)
+na.omit(filtered_eco)
 lm(formula = filtered_eco$pop65 ~ filtered_eco$log_GDP_per_capita)
 plot(filtered_eco$log_GDP_per_capita, filtered_eco$pop65 , main="Scatterplot", xlab="log_GDP_per_capita", ylab="pop65", pch=19)
 abline(lm(formula = as.numeric(filtered_eco$pop65) ~ as.numeric(filtered_eco$log_GDP_per_capita)))
