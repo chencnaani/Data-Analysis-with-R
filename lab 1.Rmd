@@ -5,46 +5,6 @@ date: "4/4/2020"
 output: html_document
 ---
 
-# *Lab 1: Basic Data Wrangling*  
-<br/><br/>  
-  
-
-**Contents**:  
- 
-* Q1) [Data Preparation and Manipulation](#data-preparation-and-manipulation)      
-* Q2) [Analysis of Daily New Corona Cases and Deaths](#analysis-of-daily-new-corona-cases-and-deaths)    
-* Q3) [Preparing and Analyzing the World Bank Data](#preparing-and-analyzing-the-world-bank-data)
-* Q4) [Joining the Datasets](#joining-the-datasets)  
-* Q5) [Open Question](#open-question)
-
-<br/><br/>
-  
-  
-
-## A Deeper Dive Into John's Hopkins Corona Database         
-    
-The John's Hopkins Novel Corona Virus (COVID-19) epidemiological data is compiled by the Johns Hopkins University Center for Systems Science and Engineering (JHU CCSE) from various sources. <br>
-The dataset contains data since 22nd of January 2020. For the data and more information about it, please visit [here](https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases).    
-  
-In this lab you will pick up where we left in lecture 2 and analyze the Corona cases and deaths data.  
-
-### Q1
-### Data Preparation and Manipulation   
-(25 points)  
-
-1. We first prepare and aggregate the data.   
-
-a. First, load the `Corona Confirmed Cases Narrow`, the `Corona Confirmed Deaths Narrow`, and the `Corona Confirmed Recovered Narrow` datasets directly from the John's Hopkins website.  
-The type of the `Date` variable should be date type. (2 pts)      
-b. Create new data-frames named `cases.agg`, `deaths.agg`, and `recovered.agg` which aggregate the `sum` of Corona cases, deaths, and recovered respectively over the different countries' provinces. To do this, aggregate `Value` using only the country and date features, ignoring all other features (similarly to what has been shown in `lecture 2`).  
-To achieve the aggregation use the `aggregate` function. In addition, order the data-frame first by Country and then by Date (increasing order). The columns of each of the two resulting data-frames should be `Country.Region, Date, Value`. (5pts)   
-c. Repeat (b) using `tidyverse` and the pipe. Show that the outputs from the two methods are the same. (5pts)  
-d. Using the last day of March as a reference, create a single stacked bar-plot that visualizes the top 10 countries in terms of their Corona cases, and their respected Corona deaths and recovered cases stacked on top of the current sick people in three different colors (each stack should add up to total cases). Make sure that the first stack shows the number of confirmed Corona sick people (`sick = cases - deaths - recovered`). Each stacked bar should represent a country. Please use the barplot base R function to create this plot. I recommend everyone to read the help documentation for barplot ; go over the expected input, and the different parameters. What is the biggest issue with the information presented in this plot? (13pts)
-
-   
-  
-**Solution:**  
-
 ```{r}
 library('tidyverse')
 library('data.table')
@@ -91,22 +51,6 @@ barplot(data.for.bar.p, main = "Top-10 countries with the most cases - on 31.03.
 legend("topright",legend = c("sicks","deaths","recoverd"), fill = c("grey","darkorange","orange"))
 ###The issue of this plot is that it doesnt show the proportion of the cases to the population. so we ###cant compere the effect of the apidemic on the state to the othe countries.
 ```
-
-<br/><br/>  
-
-### Q2
-### Analysis of Daily New Corona Cases and Deaths  
-20 points
-
-The two datasets (Corona Cases and Deaths) register the value of cases and deaths, respectively, as a cumulative sum for each day. In this question we would like to understand the daily differences between consecutive days.     
-
-a. Add a new column named `Diff` to both the `cases.agg` and the `deaths.agg` data-frames. This new column should register the daily `Value` difference for each country. In other words, the `Diff` column shows how many new cases/deaths each country incurs every day. Hint - diff must be per country. (7pts)  
-b. Find the top 10 instances of country and date combinations with the greatest absolute number of new daily Corona cases and deaths (separately). Print the result in a descriptive format. (5pts)  
-c. In one figure, plot Italy's new daily Corona cases AND deaths as a function of Date. Choose the plot type you think that makes the most sense. (3pts) 
-d. Plot the same graph as in (c), but this time plot the number of new cases on the logarithm scale. What can we learn? (5pts)  
-
-  
-**Solution:**    
 
 
 ```{r}
@@ -173,23 +117,6 @@ legend("topleft",legend = c("cases-log.scale","deaths-log.scale"),fill = c("gray
 <br/><br/>
 
 
-### Q3
-### Preparing and Analyzing the World Bank Data   
-25 points
-
-a. Rename the columns of `eco_data`: `country,S_country,feature,feature_code,Y2018V,Y2019V`. (2pts)  
-b. Create a new `eco` data-frame whose dimensions are $N \times 11$, where `N` is the number of countries. The first column should include the names of the countries in `eco_data.`   
-The rest of the columns should be the features with their respective values in `eco_data` for each country from 2018. Print the head of the new data-frame.(8pts).   
-In other words, in this question you are asked to create a new eco data-frame whose dimensions are $N \times 11$, where N is the number of countries (the first column should include the names of the countries in `eco_data`).
-The rest of the columns should be the features with their respective values in eco_data for each country from 2018. Print the head of the new data-frame. You may delete rows with NA as a country value only.  
-c. Select and rename the following columns: `country` as country, `GDP(US currency)` as GDP, `Population ages 65 and above (% of total population)` as pop65, `Population in the largest city (% of urban population)` as pop_city_ratio, `Population, total` as pop_total columns .  (2pts) 
-d. Show a table of the five countries with the highest per capita GDP in 2018.     
-Next (considering all countries), plot the % of population over 65 vs. log of GDP per capita in 2018, after excluding the 10% countries with the lowest GDP per capita. Using `lm` and `abline`, add a regression line to the plot. What is your conclusion? (13 pts)  
-  
-  
-  
-**Solution:** 
-
 ```{r}
 ##-a-
 #loading the `eco_data`:
@@ -234,28 +161,6 @@ lm(formula = filtered_eco$pop65 ~ filtered_eco$log_GDP_per_capita)
 plot(filtered_eco$log_GDP_per_capita, filtered_eco$pop65 , main="Scatterplot", xlab="log_GDP_per_capita", ylab="pop65", pch=19)
 abline(lm(formula = as.numeric(filtered_eco$pop65) ~ as.numeric(filtered_eco$log_GDP_per_capita)))
 ```
-
-YOUR SOLUTION HERE.
-Use code blocks and markdown to clearly communicate your work.
-
-<br/><br/>  
-
-
-### Q4
-### Joining the Datasets   
-20 points
-
-a. Join the `deaths.agg`, `cases.agg`, and `recovered.agg` into one data-frame called `corona`.(5pts)
-b. Join the `corona` and `eco` data-frames in a way that will keep the most information regarding the data (but not full join).   
-Make sure that no essential data is thrown away (show this). (3pts)
-c. Create new columns of normalized `cases`, `deaths`, and `recovered` so they will show the number of cases per 100,000 people for each country.   
-Using the last day of March as a reference, create a single stacked bar plot that visualizes the top 10 countries in terms of normalized Corona cases, and their respected normalized Corona deaths and recovered, as done in Q1.   
-how is it different from the graph before normalization? (5pts)
-d. Using the last day of March as a reference, create a scatter-plot of normalized deaths and cases vs. `pop65`. Limit the plot to show only countries with 15% or more of `pop65`.   
-In addition, color the outliers( pop65>24, norm100K_deaths>15) in that plot in red and add to the plot their country names (7pts)
-  
-  
-**Solution:**   
 
 ```{r}
 ### Q4
@@ -333,15 +238,6 @@ legend("topright",
 ```
 <br/><br/>  
 
-
-
-### Q5
-### Open Question
-10 points
-  
-Write an interesting research question regarding the Corona outbreak and then follow the steps to answer it using tables and plots. You can use the loaded datasets or any other dataset you find as long as you add the data file to your `lab1` repository so it can be loaded directly from a `url` (e.g. the World Bank). This question will be graded based on creativity, originality, and the novelty of the analysis.   
-  
-**Solution:**   
 
 ```{r}
 #the car crash dataset of NY state
