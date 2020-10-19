@@ -1,4 +1,4 @@
-# *Lab 1: Basic Data Wrangling*  
+# *Lab 1*  
   
 
 **Contents**:  
