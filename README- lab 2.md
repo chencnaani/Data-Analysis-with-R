@@ -1,4 +1,4 @@
-## *Lab 2: Visualization Through `ggplot`*  
+## *Lab 2*  
 <br/><br/>  
   
 
